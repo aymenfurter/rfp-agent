@@ -1,0 +1,223 @@
+/* Step System */
+.steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+}
+
+/* Step Cards */
+.step-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-8);
+    padding: var(--space-8);
+    background-color: var(--background-200);
+    border: 1px solid var(--stroke-200);
+    border-radius: var(--radius-xl);
+    transition: all var(--transition-normal);
+    overflow: hidden;
+}
+
+.step-card.completed {
+    background-color: var(--background-200);
+    border-color: var(--success-600);
+    box-shadow: 0 0 0 1px var(--success-600);
+}
+
+.step-card.active {
+    background-color: var(--background-250);
+    border-color: var(--accent-600);
+    box-shadow: 0 0 0 1px var(--accent-600), 0 4px 16px rgba(80, 80, 168, 0.2);
+}
+
+.step-card.disabled {
+    opacity: 0.6;
+    background-color: var(--background-200);
+    border-color: var(--stroke-200);
+}
+
+.step-card.collapsed {
+    padding: var(--space-6) var(--space-8);
+}
+
+.step-card.collapsed .step-content {
+    display: none;
+}
+
+.step-card.collapsed .step-header {
+    margin-bottom: 0;
+}
+
+/* Step Number */
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--background-300);
+    color: var(--foreground-700);
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    border: 2px solid var(--stroke-300);
+}
+
+.step-card.completed .step-number {
+    background-color: var(--success-600);
+    color: #ffffff;
+    border-color: var(--success-600);
+}
+
+.step-card.active .step-number {
+    background-color: var(--accent-600);
+    color: #ffffff;
+    border-color: var(--accent-600);
+}
+
+/* Step Header */
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+    margin-bottom: var(--space-4);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.step-header:hover {
+    opacity: 0.8;
+}
+
+.step-header-info {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.step-header-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex: 1;
+    position: relative; /* Add this for proper badge positioning */
+}
+
+.step-header-title h3 {
+    margin: 0;
+    flex: 1;
+}
+
+.step-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background: transparent;
+    color: var(--foreground-600);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.step-toggle:hover {
+    background-color: var(--background-300);
+    color: var(--foreground-900);
+}
+
+.step-card.completed .step-toggle {
+    display: flex;
+}
+
+.step-toggle i {
+    transition: transform var(--transition-fast);
+}
+
+.step-card.collapsed .step-toggle i {
+    transform: rotate(-90deg);
+}
+
+/* Step Content */
+.step-content {
+    transition: all var(--transition-normal);
+}
+
+.step-collapsed-summary {
+    display: none;
+    align-items: center;
+    gap: var(--space-4);
+    margin-left: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.step-card.collapsed .step-collapsed-summary {
+    display: flex;
+}
+
+.collapsed-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    background-color: var(--background-250);
+    border: 1px solid var(--stroke-300);
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.collapsed-stat.success {
+    background-color: rgba(52, 199, 89, 0.1);
+    border-color: var(--success-600);
+    color: var(--success-600);
+}
+
+.collapsed-stat.info {
+    background-color: rgba(96, 96, 192, 0.1);
+    border-color: var(--accent-600);
+    color: var(--accent-600);
+}
+
+/* Agent Badges */
+.agent-badge {
+    position: relative; /* Change from absolute to relative */
+    top: auto; /* Remove absolute positioning */
+    right: auto; /* Remove absolute positioning */
+    background-color: var(--accent-100);
+    color: var(--accent-700);
+    border: 1px solid var(--accent-200);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    margin-left: auto; /* Push to the right within the flex container */
+}
+
+.agent-badge.active {
+    background-color: var(--accent-600);
+    color: var(--background-100);
+    border-color: var(--accent-600);
+}
+
+/* Dark theme adjustments for agent badges */
+[data-theme="dark"] .agent-badge {
+    background-color: var(--accent-900);
+    color: var(--accent-300);
+    border-color: var(--accent-700);
+}
+
+[data-theme="dark"] .agent-badge.active {
+    background-color: var(--accent-500);
+    color: var(--background-900);
+    border-color: var(--accent-500);
+}

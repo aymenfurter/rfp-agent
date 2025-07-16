@@ -1,0 +1,83 @@
+/* Progress System */
+.progress-container {
+    margin-bottom: var(--space-5);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 0.5rem;
+    background-color: var(--background-300);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-2);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-550), var(--accent-600));
+    border-radius: var(--radius-full);
+    transition: width var(--transition-normal);
+}
+
+.progress-text {
+    font-size: 0.625rem;
+    color: var(--foreground-600);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+/* Compliance Grid */
+.compliance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--space-4);
+}
+
+.compliance-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    background-color: var(--background-250);
+    border: 1px solid var(--stroke-300);
+}
+
+.compliance-card.compliant {
+    background-color: rgba(52, 199, 89, 0.1);
+    border-color: var(--success-600);
+    color: var(--success-600);
+}
+
+.compliance-card.partial {
+    background-color: rgba(255, 159, 10, 0.1);
+    border-color: var(--warning-600);
+    color: var(--warning-600);
+}
+
+.compliance-card.non-compliant {
+    background-color: rgba(255, 69, 58, 0.1);
+    border-color: var(--error-600);
+    color: var(--error-600);
+}
+
+.compliance-card.pending {
+    background-color: rgba(64, 166, 255, 0.1);
+    border-color: var(--info-600);
+    color: var(--info-600);
+}
+
+.compliance-number {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground-900);
+    margin-bottom: var(--space-1);
+}
+
+.compliance-label {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}

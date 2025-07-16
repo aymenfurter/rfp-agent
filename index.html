@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFP Agent</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-theme="dark">
+    <div class="app-container">
+        <div class="rfp-container">
+            <!-- Header Section -->
+            <div class="text-center mb-12">
+                <div class="flex items-center justify-center gap-4 mb-8 p-6 border-b border-stroke-200">
+                    <div class="size-12 bg-accent-550 squircle-16 flex items-center justify-center">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-3xl-strong text-foreground-900 m-0">RFP <span class="gradient-text">Agent</span></h1>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="py-4">
+                    <h2 class="text-2xl font-medium mb-4 text-foreground-900">RFP Processing & Response Generation</h2>
+                    <p class="text-base text-foreground-600 max-w-2xl mx-auto">Upload RFP documents, extract criteria automatically, and generate comprehensive vendor responses with competitive analysis</p>
+                </div>
+            </div>
+            
+            <!-- Global Actions -->
+            <div class="global-actions mb-8">
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="expandAllSteps()">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <span>Expand All Steps</span>
+                    </button>
+                    <button class="btn-secondary" onclick="collapseAllCompletedSteps()">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                        <span>Collapse Completed</span>
+                    </button>
+                    <button class="btn-secondary" onclick="showAnalysisHistory()" title="View analysis history">
+                        <i class="fas fa-history"></i>
+                        <span>Analysis History</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Process Steps -->
+            <div class="flex flex-col gap-8 mb-12">
+                <!-- Step 0: Product Specification -->
+                <div class="step-card active" id="step-product">
+                    <div class="step-number">0</div>
+                    <div class="flex-grow">
+                        <div class="step-header" onclick="toggleStep('step-product')">
+                            <div class="step-header-info">
+                                <div class="step-header-title">
+                                    <i class="fas fa-box text-2xl text-accent-550"></i>
+                                    <h3 class="text-xl-medium text-foreground-900 m-0">Specify Product/Service</h3>
+                                    <span class="agent-badge">Configuration</span>
+                                </div>
+                                <div class="step-collapsed-summary">
+                                    <div class="collapsed-stat success" id="product-summary" style="display: none;">
+                                        <i class="fas fa-check"></i>
+                                        <span id="product-name-display">Your Solution</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="step-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="step-content">
+                            <p class="text-sm text-foreground-600 mb-5">Specify the product or service you're proposing to validate RFP criteria against</p>
+                            
+                            <div class="form-group mb-6">
+                                <label for="product-input" class="form-label">Product/Service Name</label>
+                                <input 
+                                    type="text" 
+                                    id="product-input" 
+                                    class="form-input" 
+                                    value="Your Solution"
+                                    placeholder="Enter your product or service name..."
+                                    maxlength="200"
+                                >
+                                <p class="form-hint">This will be used by the AI agent to validate criteria compliance</p>
+                            </div>
+                            
+                            <div class="action-row">
+                                <button class="btn-primary" onclick="setProductName()">
+                                    <i class="fas fa-save"></i>
+                                    <span>Set Product Name</span>
+                                </button>
+                                <button class="btn-ghost" onclick="resetProductName()">
+                                    <i class="fas fa-undo"></i>
+                                    <span>Reset to Default</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Upload Documents -->
+                <div class="step-card disabled" id="step-upload">
+                    <div class="step-number">1</div>
+                    <div class="flex-grow">
+                        <div class="step-header" onclick="toggleStep('step-upload')">
+                            <div class="step-header-info">
+                                <div class="step-header-title">
+                                    <i class="fas fa-file-upload text-2xl text-foreground-600"></i>
+                                    <h3 class="text-xl-medium text-foreground-900 m-0">Upload RFP Documents</h3>
+                                    <span class="agent-badge">Document Agent</span>
+                                </div>
+                                <div class="step-collapsed-summary">
+                                    <div class="collapsed-stat success">
+                                        <i class="fas fa-check"></i>
+                                        <span id="upload-files-count">0 files processed</span>
+                                    </div>
+                                    <div class="collapsed-stat info">
+                                        <i class="fas fa-file-text"></i>
+                                        <span id="requirements-files-count">0 requirements documents</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="step-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="step-content">
+                            <p class="text-sm text-foreground-600 mb-5">Upload and analyze RFP documents to identify requirements and criteria. Only requirements documents will have criteria extracted.</p>
+                            
+                            <!-- File Upload Area (added by JavaScript) -->
+                            
+                            <div class="progress-container mb-5" id="upload-progress-container" style="display: none;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="upload-progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text" id="upload-progress-text">Ready to upload documents</span>
+                            </div>
+                            
+                            <div class="file-grid mb-6" id="file-grid">
+                                <div class="upload-placeholder" id="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-foreground-400 mb-4"></i>
+                                    <p class="text-sm text-foreground-600">No documents uploaded yet</p>
+                                    <p class="text-xs text-foreground-500">Supported formats: PDF, Excel (.xlsx, .xls)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="action-row">
+                                <button class="btn-secondary" onclick="uploadDocument()">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Upload Documents</span>
+                                </button>
+                                <button class="btn-ghost" onclick="showLogs('upload')" id="view-upload-logs-btn">
+                                    <i class="fas fa-list"></i>
+                                    <span>View Processing Logs</span>
+                                </button>
+                                <button class="btn-ghost" onclick="testAPI()" id="test-api-btn">
+                                    <i class="fas fa-flask"></i>
+                                    <span>Test API</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Review Extracted Criteria -->
+                <div class="step-card disabled" id="step-review">
+                    <div class="step-number">2</div>
+                    <div class="flex-grow">
+                        <div class="step-header" onclick="toggleStep('step-review')">
+                            <div class="step-header-info">
+                                <div class="step-header-title">
+                                    <i class="fas fa-search-plus text-2xl text-foreground-600"></i>
+                                    <h3 class="text-xl-medium text-foreground-900 m-0">Review Extracted Criteria</h3>
+                                    <span class="agent-badge">Extraction Agent</span>
+                                </div>
+                                <div class="step-collapsed-summary">
+                                    <div class="collapsed-stat success">
+                                        <i class="fas fa-check"></i>
+                                        <span>0 approved</span>
+                                    </div>
+                                    <div class="collapsed-stat info">
+                                        <i class="fas fa-edit"></i>
+                                        <span>0 modified</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="step-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="step-content">
+                            <p class="text-sm text-foreground-600 mb-5">Review and validate AI-extracted criteria and requirements from RFP documents</p>
+                            
+                            <div class="progress-container mb-5">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">Waiting for requirements document upload</span>
+                            </div>
+                            
+                            <div class="stats-grid mb-5">
+                                <div class="stat-card">
+                                    <span class="stat-number text-accent-550">0</span>
+                                    <span class="stat-label">Total Criteria</span>
+                                </div>
+                                <div class="stat-card">
+                                    <span class="stat-number text-success-600">0</span>
+                                    <span class="stat-label">Approved</span>
+                                </div>
+                                <div class="stat-card">
+                                    <span class="stat-number text-warning-600">0</span>
+                                    <span class="stat-label">Modified</span>
+                                </div>
+                            </div>
+                            
+                            <div class="action-row">
+                                <button class="btn-disabled" disabled onclick="showCriteriaTable()" id="view-criteria-btn">
+                                    <i class="fas fa-table"></i>
+                                    <span>View Criteria Table</span>
+                                </button>
+                                <button class="btn-disabled" disabled onclick="approveAllCriteria()" id="approve-all-btn">
+                                    <i class="fas fa-check-double"></i>
+                                    <span>Approve All</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Generate AI Responses -->
+                <div class="step-card disabled" id="step-generate">
+                    <div class="step-number">3</div>
+                    <div class="flex-grow">
+                        <div class="step-header" onclick="toggleStep('step-generate')">
+                            <div class="step-header-info">
+                                <div class="step-header-title">
+                                    <i class="fas fa-robot text-2xl text-foreground-600"></i>
+                                    <h3 class="text-xl-medium text-foreground-900 m-0">Generate AI Responses</h3>
+                                    <span class="agent-badge">Response Agent</span>
+                                </div>
+                                <div class="step-collapsed-summary">
+                                    <div class="collapsed-stat success">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>0 compliant</span>
+                                    </div>
+                                    <div class="collapsed-stat info">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <span>0 partial</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="step-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="step-content">
+                            <p class="text-sm text-foreground-600 mb-5">AI analyzes each criterion against your product/service and generates comprehensive responses with compliance assessment</p>
+                            
+                            <!-- AI Agent Configuration -->
+                            <div class="config-section mb-6">
+                                <h4 class="text-base font-medium text-foreground-900 mb-4">AI Agent Configuration</h4>
+                                <div class="config-grid">
+                                    <div class="config-item">
+                                        <label class="config-label">
+                                            <input type="checkbox" id="deep-research-toggle" class="config-checkbox">
+                                            <span class="config-text">Enable Deep Research</span>
+                                        </label>
+                                        <p class="config-hint">
+                                            <i class="fas fa-exclamation-triangle text-warning-600"></i>
+                                            Deep Research provides more comprehensive analysis but increases latency and costs
+                                        </p>
+                                    </div>
+                                    <div class="config-item">
+                                        <label class="config-label">Product/Service:</label>
+                                        <span class="config-value" id="generate-product-name">Your Solution</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container mb-5">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">Waiting for criteria review</span>
+                            </div>
+                            
+    
+                            <div class="action-row">
+                                <button class="btn-disabled" disabled onclick="generateAIResponses()" id="generate-responses-btn">
+                                    <i class="fas fa-play"></i>
+                                    <span>Generate Responses</span>
+                                </button>
+                                <button class="btn-disabled" disabled onclick="showResponsesTable()" id="view-responses-btn">
+                                    <i class="fas fa-table"></i>
+                                    <span>View All Responses</span>
+                                </button>
+                                <button class="btn-disabled" disabled onclick="showLogs('generate')" id="generate-logs-btn">
+                                    <i class="fas fa-list"></i>
+                                    <span>Processing Logs</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Competitive Analysis -->
+                <div class="step-card disabled" id="step-competitive">
+                    <div class="step-number">4</div>
+                    <div class="flex-grow">
+                        <div class="step-header" onclick="toggleStep('step-competitive')">
+                            <div class="step-header-info">
+                                <div class="step-header-title">
+                                    <i class="fas fa-chart-line text-orange-500"></i>
+                                    <h3 class="text-lg-medium text-foreground-900">Competitive Analysis</h3>
+                                </div>
+                                <div class="step-header-meta">
+                                    <div class="collapsed-stats">
+                                        <span class="collapsed-stat success">
+                                            <span id="competitive-advantage-count">0 advantages</span>
+                                        </span>
+                                        <span class="collapsed-stat info">
+                                            <span id="competitive-analysis-count">0 analyzed</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="step-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="step-content">
+                            <p class="text-sm text-foreground-600 mb-5">Analyze your solution against competitors to identify advantages and improvement opportunities</p>
+                            
+                            <div class="competitive-actions mb-6">
+                                <div class="action-row mb-4">
+                                    <button class="btn-primary btn-disabled" id="competitive-analysis-btn" onclick="runCompetitiveAnalysis()" disabled>
+                                        <i class="fas fa-play"></i>
+                                        <span>Run Analysis</span>
+                                    </button>
+                                    <button class="btn-secondary btn-disabled" id="view-competitive-btn" onclick="showCompetitiveTable()" disabled>
+                                        <i class="fas fa-table"></i>
+                                        <span>View Results</span>
+                                    </button>
+                                    <button class="btn-ghost" onclick="showLogs('competitive')" title="View processing logs">
+                                        <i class="fas fa-list-alt"></i>
+                                        <span>Analysis Logs</span>
+                                    </button>
+                                    <button class="btn-ghost" onclick="saveCurrentAnalysis()" title="Save current analysis">
+                                        <i class="fas fa-save"></i>
+                                        <span>Save Analysis</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- AI Agent Configuration for Competitive Analysis -->
+                            <div class="config-section mb-6">
+                                <h4 class="text-base font-medium text-foreground-900 mb-4">Competitive Analysis Configuration</h4>
+                                <div class="config-grid">
+                                    <div class="config-item">
+                                        <label class="config-label">
+                                            <input type="checkbox" id="competitive-deep-research-toggle" class="config-checkbox">
+                                            <span class="config-text">Enable Deep Research for Competitors</span>
+                                        </label>
+                                        <p class="config-hint">
+                                            <i class="fas fa-exclamation-triangle text-warning-600"></i>
+                                            Deep Research provides more comprehensive competitor analysis but increases processing time and costs
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Current Product Display -->
+                            <div class="competitor-section mb-6">
+                                <h4 class="text-base font-medium text-foreground-900 mb-4">Your Product/Service</h4>
+                                <div class="competitor-card your-product">
+                                    <div class="competitor-info">
+                                        <div class="competitor-icon">
+                                            <i class="fas fa-star text-accent-550"></i>
+                                        </div>
+                                        <div class="competitor-details">
+                                            <h5 class="competitor-name" id="competitive-product-name">Your Solution</h5>
+                                            <div class="competitor-stats">
+                                                <span class="stat-item analyzed">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    <span id="your-analysis-status">Using existing analysis data</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="analysis-score" id="your-product-score" style="display: none;">
+                                        <span class="score-number">--</span>
+                                        <span class="score-label">Compliance</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Competitors Section -->
+                            <div class="competitor-section mb-6">
+                                <div class="section-header mb-4">
+                                    <h4 class="text-base font-medium text-foreground-900">Competitors</h4>
+                                    <button class="btn-ghost" onclick="addCompetitor()" id="add-competitor-btn">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Add Competitor</span>
+                                    </button>
+                                </div>
+                                <div class="competitor-grid" id="competitors-grid">
+                                    <div class="competitor-placeholder" id="competitor-placeholder">
+                                        <i class="fas fa-users text-4xl text-foreground-400 mb-4"></i>
+                                        <p class="text-sm text-foreground-600">No competitors added yet</p>
+                                        <p class="text-xs text-foreground-500">Add up to 2 competitors for analysis</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container mb-5">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">Waiting for response generation</span>
+                            </div>
+                            
+                            <div class="action-row">
+                                <button class="btn-disabled" disabled onclick="runCompetitiveAnalysis()" id="competitive-analysis-btn">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Run Competitive Analysis</span>
+                                </button>
+                                <button class="btn-disabled" disabled onclick="showCompetitiveTable()" id="view-competitive-btn">
+                                    <i class="fas fa-table"></i>
+                                    <span>View Detailed Comparison</span>
+                                </button>
+                                <button class="btn-disabled" disabled onclick="showLogs('competitive')" id="competitive-logs-btn">
+                                    <i class="fas fa-list"></i>
+                                    <span>Analysis Logs</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Export Response Package -->
+                <div class="step-card disabled" id="step-export">
+                    <div class="step-number">5</div>
+                    <div class="flex-grow">
+                        <div class="step-header" onclick="toggleStep('step-export')">
+                            <div class="step-header-info">
+                                <div class="step-header-title">
+                                    <i class="fas fa-file-export text-2xl text-foreground-600"></i>
+                                    <h3 class="text-xl-medium text-foreground-900 m-0">Export Response Package</h3>
+                                    <span class="agent-badge">Export Agent</span>
+                                </div>
+                                <div class="step-collapsed-summary">
+                                    <div class="collapsed-stat info">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Not ready</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="step-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="step-content">
+                            <p class="text-sm text-foreground-600 mb-5">Generate final RFP response package with competitive analysis and strategic recommendations</p>
+                            
+                            <div class="progress-container mb-5">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">Waiting for competitive analysis</span>
+                            </div>
+                            
+                            <div class="export-preview mb-6">
+                                <div class="export-item">
+                                    <i class="fas fa-file-pdf text-2xl text-foreground-400"></i>
+                                    <div class="export-info">
+                                        <h4 class="text-base-strong text-foreground-900">RFP Response Document</h4>
+                                        <p class="text-xs text-foreground-600">Comprehensive response to all criteria</p>
+                                    </div>
+                                    <div class="status-badge pending">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Pending</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="export-item">
+                                    <i class="fas fa-chart-bar text-2xl text-foreground-400"></i>
+                                    <div class="export-info">
+                                        <h4 class="text-base-strong text-foreground-900">Competitive Analysis Report</h4>
+                                        <p class="text-xs text-foreground-600">Strategic positioning and recommendations</p>
+                                    </div>
+                                    <div class="status-badge pending">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Pending</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="export-item">
+                                    <i class="fas fa-file-excel text-2xl text-foreground-400"></i>
+                                    <div class="export-info">
+                                        <h4 class="text-base-strong text-foreground-900">Criteria Compliance Matrix</h4>
+                                        <p class="text-xs text-foreground-600">Detailed compliance tracking spreadsheet</p>
+                                    </div>
+                                    <div class="status-badge pending">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="action-row">
+                                <button class="btn-primary">
+                                    <i class="fas fa-download"></i>
+                                    <span>Generate Package</span>
+                                </button>
+                                <button class="btn-disabled" disabled>
+                                    <i class="fas fa-list"></i>
+                                    <span>Export Logs</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Summary -->
+            <div class="status-summary mb-8">
+                <div class="summary-card">
+                    <h4 class="text-lg font-medium text-foreground-900 mb-4">Process Status</h4>
+                    <div class="status-items">
+                        <div class="status-item">
+                            <i class="fas fa-circle-notch text-accent-550"></i>
+                            <span>Specify your product/service to begin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="criteria-modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 class="text-xl-medium text-foreground-900">Extracted RFP Criteria</h3>
+                <button class="modal-close" onclick="hideCriteriaTable()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="search-controls mb-6">
+                    <div class="search-input-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search criteria..." id="criteria-search" class="search-input">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="category-filter" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="technical">Technical Requirements</option>
+                            <option value="security">Security & Compliance</option>
+                            <option value="performance">Performance</option>
+                            <option value="support">Support & Maintenance</option>
+                            <option value="compliance">Compliance</option>
+                            <option value="integration">Integration</option>
+                            <option value="financial">Financial</option>
+                        </select>
+                        <select id="status-filter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="extracted">Extracted</option>
+                            <option value="approved">Approved</option>
+                            <option value="modified">Modified</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="pending">Pending Review</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="criteria-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Category</th>
+                                <th>Criterion</th>
+                                <th>Source</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="criteria-table-body">
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-foreground-600">No criteria data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Responses Modal -->
+    <div class="modal-overlay" id="responses-modal">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h3 class="text-xl-medium text-foreground-900">AI Generated Responses</h3>
+                <button class="modal-close" onclick="hideResponsesTable()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="search-controls mb-6">
+                    <div class="search-input-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search responses..." id="responses-search" class="search-input">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="compliance-filter" class="filter-select">
+                            <option value="">All Compliance</option>
+                            <option value="compliant">Fully Compliant</option>
+                            <option value="non-compliant">Non-Compliant</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="responses-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Criterion</th>
+                                <th>Compliance</th>
+                                <th>Response</th>
+                                <th>References</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="responses-table-body">
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-foreground-600">No response data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Competitive Analysis Modal -->
+    <div class="modal-overlay" id="competitive-modal">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h3 class="text-xl-medium text-foreground-900">Competitive Analysis Dashboard</h3>
+                <button class="modal-close" onclick="hideCompetitiveTable()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Charts Section -->
+                <div class="chart-grid mb-8">
+                    <div class="chart-card">
+                        <h4 class="chart-title">Overall Compliance Comparison</h4>
+                        <div class="chart-container">
+                            <canvas id="complianceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4 class="chart-title">Competitive Position by Category</h4>
+                            <div class="chart-controls">
+                                <select id="chart-competitor-select" class="filter-select">
+                                    <option value="average">Average Competitors</option>
+                                    <!-- Options populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side-by-side Comparison Section (shown when specific competitor selected) -->
+                <div id="side-by-side-comparison" class="comparison-section mb-8" style="display: none;">
+                    <h4 class="comparison-title">Detailed Comparison with <span id="selected-competitor-name"></span></h4>
+                    <div class="comparison-grid" id="comparison-grid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="search-controls mb-6">
+                    <div class="search-input-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search competitive analysis..." id="competitive-search" class="search-input">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="advantage-filter" class="filter-select">
+                            <option value="">All Positions</option>
+                            <option value="advantage">Competitive Advantage</option>
+                            <option value="competitive">Competitive</option>
+                            <option value="improvement">Needs Improvement</option>
+                        </select>
+                        <select id="competitor-filter" class="filter-select">
+                            <option value="">All Competitors</option>
+                            <!-- Options will be populated dynamically based on actual competitors -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Competitive Table -->
+                <div class="table-wrapper">
+                    <table class="data-table" id="competitive-table">
+                        <thead>
+                            <tr>
+                                <th>Criterion</th>
+                                <th>Your Response</th>
+                                <th>Best Competitor</th>
+                                <th>Position</th>
+                                <th>Strategic Recommendation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="competitive-table-body">
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-foreground-600">No competitive analysis data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Modal -->
+    <div class="modal-overlay" id="logs-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-xl-medium text-foreground-900" id="logs-title">Processing Logs</h3>
+                <button class="modal-close" onclick="hideLogs()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="logs-container" id="logs-container">
+                    <div class="text-center py-8 text-foreground-600">No logs available</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Add Competitor Modal -->
+    <div class="modal-overlay" id="add-competitor-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-xl-medium text-foreground-900">Add Competitor</h3>
+                <button class="modal-close" onclick="hideAddCompetitorModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="space-y-4">
+                    <div>
+                        <label for="competitor-name" class="form-label">Competitor Product/Service Name</label>
+                        <input 
+                            type="text" 
+                            id="competitor-name" 
+                            class="form-input" 
+                            placeholder="e.g., Amazon AWS Backup, Google Cloud Backup..."
+                            maxlength="200"
+                        >
+                        <p class="form-hint">Enter the specific product or service you want to compare against</p>
+                    </div>
+                    
+                    <div>
+                        <label for="competitor-description" class="form-label">Description (Optional)</label>
+                        <textarea 
+                            id="competitor-description" 
+                            class="form-input" 
+                            rows="3"
+                            placeholder="Brief description or category..."
+                            maxlength="500"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="saveCompetitor()">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Competitor</span>
+                    </button>
+                    <button class="btn-ghost" onclick="hideAddCompetitorModal()">
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis History Modal -->
+    <div class="modal-overlay" id="analysis-history-modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 class="text-xl-medium text-foreground-900">Competitive Analysis History</h3>
+                <button class="modal-close" onclick="hideAnalysisHistory()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="analysis-history-header">
+                    <div class="analysis-history-info">
+                        <p class="text-sm text-foreground-600">
+                            Manage your saved competitive analyses. Load previous results or export data for sharing.
+                        </p>
+                    </div>
+                    <div class="analysis-history-actions">
+                        <button class="btn-secondary" onclick="importAnalysisFile()">
+                            <i class="fas fa-upload"></i>
+                            Import Analysis
+                        </button>
+                        <button class="btn-ghost" onclick="competitiveStorage.clearAllAnalyses(); populateAnalysisHistory(); updateAnalysisHistoryUI();">
+                            <i class="fas fa-trash-alt"></i>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+                <div class="analysis-history-list" id="analysis-history-list">
+                    <!-- History items will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>

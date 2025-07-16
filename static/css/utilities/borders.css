@@ -1,0 +1,39 @@
+/* Border Utilities */
+.border { border-width: 1px; }
+.border-b { border-bottom-width: 1px; }
+.border-t { border-top-width: 1px; }
+.border-l { border-left-width: 1px; }
+.border-r { border-right-width: 1px; }
+
+.border-stroke-200 { border-color: var(--stroke-200); }
+.border-stroke-300 { border-color: var(--stroke-300); }
+.border-stroke-400 { border-color: var(--stroke-400); }
+
+.border-success-600 { border-color: var(--success-600); }
+.border-warning-600 { border-color: var(--warning-600); }
+.border-error-600 { border-color: var(--error-600); }
+.border-info-600 { border-color: var(--info-600); }
+.border-accent-600 { border-color: var(--accent-600); }
+
+/* Border Radius */
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-2xl { border-radius: var(--radius-2xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* Squircle System */
+.squircle-16 {
+    clip-path: polygon(
+        30% 0%, 70% 0%, 100% 30%, 100% 70%, 
+        70% 100%, 30% 100%, 0% 70%, 0% 30%
+    );
+}
+
+.squircle-24 {
+    clip-path: polygon(
+        25% 0%, 75% 0%, 100% 25%, 100% 75%, 
+        75% 100%, 25% 100%, 0% 75%, 0% 25%
+    );
+}

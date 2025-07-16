@@ -1,0 +1,8 @@
+testfiles
+
+# pythonc ache
+.pytest_cache/
+__pycache__/
+uploads/*
+*.pyc
+.env

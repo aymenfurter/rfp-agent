@@ -1,0 +1,186 @@
+/* Badge System */
+.badge-base {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    border: 1px solid;
+}
+
+/* Status Badges */
+.status-badge {
+    @extend .badge-base;
+}
+
+.status-badge.success {
+    background-color: rgba(52, 199, 89, 0.15);
+    color: var(--success-600);
+    border-color: var(--success-600);
+}
+
+.status-badge.processing {
+    background-color: rgba(96, 96, 192, 0.15);
+    color: var(--accent-600);
+    border-color: var(--accent-600);
+}
+
+.status-badge.pending {
+    background-color: rgba(64, 166, 255, 0.15);
+    color: var(--info-600);
+    border-color: var(--info-600);
+}
+
+.status-badge.warning {
+    background-color: rgba(255, 159, 10, 0.15);
+    color: var(--warning-600);
+    border-color: var(--warning-600);
+}
+
+.status-badge.error {
+    background-color: rgba(255, 69, 58, 0.15);
+    color: var(--error-600);
+    border-color: var(--error-600);
+}
+
+/* Category Badges */
+.category-badge {
+    @extend .badge-base;
+}
+
+.category-badge.technical {
+    background-color: rgba(64, 166, 255, 0.15);
+    color: var(--info-600);
+    border-color: var(--info-600);
+}
+
+.category-badge.security {
+    background-color: rgba(255, 69, 58, 0.15);
+    color: var(--error-600);
+    border-color: var(--error-600);
+}
+
+.category-badge.performance {
+    background-color: rgba(255, 159, 10, 0.15);
+    color: var(--warning-600);
+    border-color: var(--warning-600);
+}
+
+.category-badge.support {
+    background-color: rgba(52, 199, 89, 0.15);
+    color: var(--success-600);
+    border-color: var(--success-600);
+}
+
+/* Compliance Badges */
+.compliance-badge {
+    @extend .badge-base;
+}
+
+.compliance-badge.compliant {
+    background-color: rgba(52, 199, 89, 0.15);
+    color: var(--success-600);
+    border-color: var(--success-600);
+}
+
+.compliance-badge.partial {
+    background-color: rgba(255, 159, 10, 0.15);
+    color: var(--warning-600);
+    border-color: var(--warning-600);
+}
+
+.compliance-badge.non-compliant {
+    background-color: rgba(255, 69, 58, 0.15);
+    color: var(--error-600);
+    border-color: var(--error-600);
+}
+
+/* Position Badges */
+.position-badge {
+    @extend .badge-base;
+}
+
+.position-badge.advantage {
+    background-color: rgba(52, 199, 89, 0.15);
+    color: var(--success-600);
+    border-color: var(--success-600);
+}
+
+.position-badge.competitive {
+    background-color: rgba(64, 166, 255, 0.15);
+    color: var(--info-600);
+    border-color: var(--info-600);
+}
+
+.position-badge.improvement {
+    background-color: rgba(255, 159, 10, 0.15);
+    color: var(--warning-600);
+    border-color: var(--warning-600);
+}
+
+/* Confidence Scores */
+.confidence-score {
+    font-weight: 700;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+}
+
+.confidence-score.high {
+    color: var(--success-600);
+    background-color: rgba(52, 199, 89, 0.1);
+}
+
+.confidence-score.medium {
+    color: var(--warning-600);
+    background-color: rgba(255, 159, 10, 0.1);
+}
+
+.confidence-score.low {
+    color: var(--error-600);
+    background-color: rgba(255, 69, 58, 0.1);
+}
+
+/* Agent Badges */
+.agent-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-300);
+    color: var(--foreground-700);
+    border: 1px solid var(--stroke-300);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-full);
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.agent-badge.active {
+    background-color: var(--accent-600);
+    color: var(--background-100);
+    border-color: var(--accent-600);
+}
+
+/* Ensure badges work in step headers */
+.step-header-title .agent-badge {
+    margin-left: var(--space-2);
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .agent-badge {
+    background-color: var(--background-800);
+    color: var(--foreground-300);
+    border-color: var(--stroke-600);
+}
+
+[data-theme="dark"] .agent-badge.active {
+    background-color: var(--accent-500);
+    color: var(--background-900);
+    border-color: var(--accent-500);
+}

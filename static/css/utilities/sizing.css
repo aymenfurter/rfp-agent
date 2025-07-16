@@ -1,0 +1,34 @@
+/* Sizing Utilities */
+
+/* Width */
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+
+/* Height */
+.h-full { height: 100%; }
+.h-auto { height: auto; }
+
+/* Min/Max Width */
+.max-w-2xl { max-width: 42rem; }
+.max-w-4xl { max-width: 56rem; }
+.max-w-6xl { max-width: 72rem; }
+.max-w-full { max-width: 100%; }
+
+.min-w-0 { min-width: 0; }
+.min-w-12 { min-width: 12rem; }
+
+/* Min/Max Height */
+.min-h-screen { min-height: 100vh; }
+.max-h-90 { max-height: 90vh; }
+.max-h-25 { max-height: 25rem; }
+
+/* Fixed Sizes */
+.size-8 { width: 2rem; height: 2rem; }
+.size-10 { width: 2.5rem; height: 2.5rem; }
+.size-12 { width: 3rem; height: 3rem; }
+
+/* Overflow */
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }

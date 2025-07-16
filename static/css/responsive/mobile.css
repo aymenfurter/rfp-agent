@@ -1,0 +1,35 @@
+/* Mobile Styles */
+@media (max-width: 480px) {
+    .text-3xl-strong {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+    
+    .text-2xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+    }
+    
+    .step-number {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+    }
+    
+    .action-row {
+        justify-content: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 95vh;
+        margin: var(--space-2);
+    }
+    
+    .notification {
+        top: var(--space-4);
+        right: var(--space-4);
+        left: var(--space-4);
+        min-width: auto;
+    }
+}

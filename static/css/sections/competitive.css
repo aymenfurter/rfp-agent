@@ -1,0 +1,35 @@
+/* Competitive Analysis Section */
+.competitive-section {
+    /* Specific styles for competitive analysis section */
+}
+
+/* Logs */
+.logs-container {
+    max-height: 25rem;
+    overflow-y: auto;
+}
+
+.log-entry {
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+    background-color: var(--background-200);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--accent-550);
+}
+
+.log-timestamp {
+    font-size: 0.75rem;
+    color: var(--foreground-500);
+    margin-bottom: var(--space-1);
+}
+
+.log-agent {
+    font-weight: 600;
+    color: var(--accent-550);
+    margin-bottom: var(--space-2);
+}
+
+.log-message {
+    color: var(--foreground-800);
+    line-height: 1.4;
+}

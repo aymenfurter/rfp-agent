@@ -1,0 +1,33 @@
+/* Color Utilities */
+
+/* Text Colors */
+.text-white { color: #ffffff; }
+.text-foreground-900 { color: var(--foreground-900); }
+.text-foreground-800 { color: var(--foreground-800); }
+.text-foreground-750 { color: var(--foreground-750); }
+.text-foreground-700 { color: var(--foreground-700); }
+.text-foreground-600 { color: var(--foreground-600); }
+.text-foreground-500 { color: var(--foreground-500); }
+
+.text-accent-550 { color: var(--accent-550); }
+.text-accent-600 { color: var(--accent-600); }
+
+.text-success-600 { color: var(--success-600); }
+.text-warning-600 { color: var(--warning-600); }
+.text-error-600 { color: var(--error-600); }
+.text-info-600 { color: var(--info-600); }
+
+/* Background Colors */
+.bg-transparent { background-color: transparent; }
+.bg-background-100 { background-color: var(--background-100); }
+.bg-background-200 { background-color: var(--background-200); }
+.bg-background-250 { background-color: var(--background-250); }
+.bg-background-300 { background-color: var(--background-300); }
+
+.bg-accent-550 { background-color: var(--accent-550); }
+.bg-accent-600 { background-color: var(--accent-600); }
+
+.bg-success-100 { background-color: var(--success-100); }
+.bg-warning-100 { background-color: var(--warning-100); }
+.bg-error-100 { background-color: var(--error-100); }
+.bg-info-100 { background-color: var(--info-100); }

@@ -1,0 +1,91 @@
+/* Design System Variables */
+:root {
+    /* Light Theme Colors (Caramel/Stone) */
+    --accent-100: #fef7f1;
+    --accent-200: #fdeee0;
+    --accent-300: #fbdbc1;
+    --accent-400: #f9c99c;
+    --accent-500: #f6b876;
+    --accent-550: #f4a855;
+    --accent-600: #eb8f2f;
+    --accent-700: #d87617;
+    --accent-800: #b8630f;
+    --accent-900: #985010;
+
+    --background-100: #fafaf9;
+    --background-200: #f5f5f4;
+    --background-250: #f0f0ef;
+    --background-300: #e7e5e4;
+    --background-350: #d6d3d1;
+    --background-400: #a8a29e;
+    --background-500: #78716c;
+
+    --foreground-100: #fafaf9;
+    --foreground-200: #f5f5f4;
+    --foreground-300: #e7e5e4;
+    --foreground-400: #d6d3d1;
+    --foreground-500: #a8a29e;
+    --foreground-600: #78716c;
+    --foreground-700: #57534e;
+    --foreground-750: #44403c;
+    --foreground-800: #292524;
+    --foreground-900: #1c1917;
+
+    --stroke-200: #e7e5e4;
+    --stroke-300: #d6d3d1;
+    --stroke-400: #a8a29e;
+
+    --success-100: #f0fdf4;
+    --success-200: #dcfce7;
+    --success-400: #4ade80;
+    --success-500: #22c55e;
+    --success-600: #16a34a;
+
+    --warning-100: #fefce8;
+    --warning-200: #fef3c7;
+    --warning-400: #facc15;
+    --warning-500: #eab308;
+    --warning-600: #ca8a04;
+
+    --error-100: #fef2f2;
+    --error-200: #fecaca;
+    --error-400: #f87171;
+    --error-500: #ef4444;
+    --error-600: #dc2626;
+
+    --info-100: #eff6ff;
+    --info-200: #dbeafe;
+    --info-400: #60a5fa;
+    --info-500: #3b82f6;
+    --info-600: #2563eb;
+
+    /* Animation Variables */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+
+    /* Shadow Variables */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Border Radius Variables */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* Spacing Variables */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+}

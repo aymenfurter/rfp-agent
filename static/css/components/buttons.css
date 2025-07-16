@@ -1,0 +1,139 @@
+/* Button System */
+.btn-primary,
+.btn-secondary,
+.btn-ghost,
+.btn-completed,
+.btn-disabled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    height: 2.75rem;
+    padding: 0 var(--space-6);
+    border-radius: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.btn-primary {
+    color: #ffffff !important;
+    background: linear-gradient(45deg, var(--accent-550), var(--accent-600));
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(80, 80, 168, 0.3);
+    color: #ffffff !important;
+}
+
+.btn-secondary {
+    color: var(--foreground-900) !important;
+    background-color: var(--background-250);
+    border: 1px solid var(--stroke-200);
+}
+
+.btn-secondary:hover {
+    background-color: var(--background-300);
+    transform: translateY(-1px);
+    color: var(--foreground-900) !important;
+}
+
+.btn-ghost {
+    height: 2.75rem;
+    padding: 0 var(--space-4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground-700);
+    background-color: transparent;
+    border: 1px solid var(--stroke-200);
+}
+
+.btn-ghost:hover {
+    color: var(--foreground-900);
+    border-color: var(--accent-600);
+    background-color: var(--background-200);
+}
+
+.btn-completed {
+    color: var(--success-600);
+    background-color: rgba(52, 199, 89, 0.15);
+    border: 1px solid var(--success-600);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.btn-disabled {
+    color: var(--foreground-600);
+    background-color: var(--background-200);
+    border: 1px solid var(--stroke-200);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Action Buttons */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid var(--stroke-300);
+    background-color: transparent;
+    color: var(--foreground-700);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: inherit;
+}
+
+.action-btn:hover {
+    background-color: var(--background-250);
+    color: var(--foreground-900);
+}
+
+.action-btn.primary {
+    background-color: var(--accent-600);
+    color: #ffffff;
+    border-color: var(--accent-600);
+}
+
+.action-btn.primary:hover {
+    background-color: var(--accent-700);
+}
+
+/* Button Groups */
+.action-row {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.table-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+/* Button Icon Spacing */
+.btn-primary i,
+.btn-secondary i,
+.btn-ghost i,
+.btn-completed i,
+.btn-disabled i {
+    font-size: 0.875rem;
+}
+
+/* Ensure buttons don't inherit unwanted styles */
+button {
+    font-family: inherit;
+    font-size: inherit;
+}
