@@ -16,7 +16,7 @@
 
 ## Overview
 
-This repository is a **comprehensive AI-powered platform** for automating RFP (Request for Proposal) document processing and response generation. Built with a multi-agent architecture, it streamlines the entire RFP workflow from document upload to competitive analysis and final response package generation.
+This repository is a **demo** for automating RFP (Request for Proposal) document processing and response generation. Built with a multi-agent architecture, it streamlines the entire RFP workflow from document upload to competitive analysis and final response package generation.
 
 ### Agent Workflow Demo
 
