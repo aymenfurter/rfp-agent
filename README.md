@@ -1,16 +1,18 @@
+> [!NOTE]  
+> This project is a envisioning-demo only. For a prodcuction-ready solution, please refer to: https://github.com/microsoft/agent-for-rfp-response-solution-accelerator
+> Do not deploy this demo outside of UX ideation and testing purposes. It is not intended for production use.
+> 
 <div align="center">
 
 # RFP Agent
 
 *AI-Powered RFP Processing & Response Generation Demo*
 
-<img src="docs/architecture.png" alt="RFP Agent Architecture" width="800">
+<img src="docs/architecture.png" alt="RFP Agent Architecture" width="600">
 
 </div>
 
-> [!NOTE]  
-> This project is a envisioning-demo only. For a prodcuction-ready solution, please refer to: https://github.com/microsoft/agent-for-rfp-response-solution-accelerator
-> Do not deploy this demo outside of UX ideation and testing purposes. It is not intended for production use.
+
 
 ## Overview
 
@@ -61,6 +63,3 @@ python main.py
 # Access the web interface
 open http://localhost:8000
 ```
-
-### Screenshot
-<img src="docs/screenshot.png" alt="Screenshot" width="800">
